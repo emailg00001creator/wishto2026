@@ -39,14 +39,17 @@ function initScrollEffects() {
 
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href');
-            if (targetId) {
-                scrollToSection(targetId.substring(1));
-            }
+            const href = link.getAttribute('href');
 
-            navLinks.forEach(l => l.classList.remove('active'));
-            link.classList.add('active');
+            // Only prevent default and smooth scroll for internal anchor links
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                scrollToSection(href.substring(1));
+
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            }
+            // External links (like 2025.html) will work normally
         });
     });
 
